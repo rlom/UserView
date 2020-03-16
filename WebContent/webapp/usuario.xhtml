@@ -1,0 +1,106 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui" xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+<h:head>
+	<style>
+html{
+	width: 100vw;
+	height: 100vh;
+	background-size: 100% auto;
+	background-image: url("#{request.contextPath}/webapp/resources/office.jpg");
+}
+
+#page{
+	z-index: 1000;
+	color: white;
+	background-color: rgba(4, 137, 177, 0.5);
+}
+
+#header{
+	width: 100%;
+}
+
+#content{
+	top: 20vh;
+	left: 20vw;
+	width: 60vw;
+	height: 60vh;
+	color: white;
+	position: fixed;
+	padding: 5vh 5vw;
+	background-color: rgba(4, 137, 177, 0.5);
+	border-radius: 10px;
+}
+
+#dateNasc_Input, #dateNascOuter div{
+	color: black;
+}
+	
+#imageUser {
+	height: 50px;
+	width: 50px;
+}
+
+#footer {
+	bottom: 0;
+	height: 6vh;
+	width: 100%;
+	z-index: 1000;
+	position: fixed;
+	background-color: #0489B1;
+}
+</style>
+</h:head>
+
+<h:body>
+	<div id="page">
+		<div id="header">
+			<center>
+				<h3>Usuários</h3>
+			</center>
+		</div>
+
+		<h:form id="idForm">
+			<p:growl id="growl" showDetail="true" sticky="true" />
+			
+			<div id="content">
+				<b:row>
+					<b:column span="6">
+						<b:inputText label="CPF" value="#{usuarioController.usuario.cpf}"
+							mask="9{3}.9{3}.9{3}-9{2}"></b:inputText>
+					</b:column>
+	
+					<b:column span="6">
+						<b:inputText label="Nome" value="#{usuarioController.usuario.nome}" mask="a{0,60}" max-lenght="60"></b:inputText>
+					</b:column>
+					
+					<b:column span="6">
+						<b:dateTimePicker label="Data de Nascimento" id="dateNasc" value="#{usuarioController.usuario.nascimento}" />
+					</b:column>
+					
+					<b:column span="6">
+						<b:inputText disabled="true" label="Senha" value="#{usuarioController.usuario.senha}" mask="*{0,8}" max-lenght="8"></b:inputText>
+					</b:column>
+					
+					<b:column span="12">
+						<center>
+							<b:commandButton update="@form" look="success" action="#{usuarioController.salvar}" value="Salvar"/>
+						</center>
+					</b:column>
+				</b:row>
+			</div>
+		</h:form>
+
+		<div id="footer">
+			<b:image id="imageUser" value="/webapp/resources/interview.png"></b:image>
+			<h4>CRUD para cadastro de usuário</h4>
+		</div>
+	</div>
+</h:body>
+</html>
