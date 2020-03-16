@@ -10,6 +10,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import entidades.Usuario;
 import net.bootsfaces.utils.FacesMessages;
+import repositorios.UsuarioDao;
 
 @ManagedBean
 @ViewScoped
@@ -20,7 +21,6 @@ public class UsuarioController {
 	public UsuarioController() {
 		super();
 		this.usuario = new Usuario();
-		this.usuario.setNome("TESTE");
 	}
 
 	public Usuario getUsuario() {
@@ -65,14 +65,24 @@ public class UsuarioController {
 			} catch (Exception e) {
 				context.addMessage(null, new FacesMessage("Info",
 						"Não foi possível definir uma senha para o usuário! " + "Por favor, tente mais tarde."));
-				return "usuario";
+				return "";
+			}
+			
+			try {
+				UsuarioDao dao = new UsuarioDao();
+				dao.salvar(usuario);
+			
+			} catch (Exception e) {
+				context.addMessage(null, new FacesMessage("Info",
+						"Não foi possível se comunicar com o banco."));
+				return "";
 			}
 
 			context.addMessage(null, new FacesMessage("Successful", "Usuário Salvo com Sucesso!"));
 			return "usuario?faces-redirect=true";
 		}
 
-		return "usuario";
+		return "";
 	}
 
 }
