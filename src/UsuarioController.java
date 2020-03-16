@@ -1,5 +1,6 @@
 import java.math.BigInteger;
 import java.security.MessageDigest;
+import java.util.List;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -16,11 +17,23 @@ import repositorios.UsuarioDao;
 @ViewScoped
 public class UsuarioController {
 
+	UsuarioDao dao;
 	Usuario usuario;
+	List<Usuario> usuarios;
 
 	public UsuarioController() {
 		super();
+		dao = new UsuarioDao();
 		this.usuario = new Usuario();
+		this.usuarios = dao.listarTodos();
+	}
+
+	public List<Usuario> getUsuarios() {
+		return usuarios;
+	}
+
+	public void setUsuarios(List<Usuario> usuarios) {
+		this.usuarios = usuarios;
 	}
 
 	public Usuario getUsuario() {
@@ -55,34 +68,51 @@ public class UsuarioController {
 			String senha = this.usuario.getCpf().substring(0, 2) + this.usuario.getNascimento().getMonth();
 
 			try {
-				MessageDigest digest = MessageDigest.getInstance("SHA-1");
-				digest.reset();
-				digest.update(senha.getBytes("utf8"));
-				senha = String.format("%040x", new BigInteger(1, digest.digest()));
-				this.usuario.setSenha(senha);
-				System.out.println(senha);
-				
+				if(usuario.getId() == null) {
+					MessageDigest digest = MessageDigest.getInstance("SHA-1");
+					digest.reset();
+					digest.update(senha.getBytes("utf8"));
+					senha = String.format("%040x", new BigInteger(1, digest.digest()));
+					this.usuario.setSenha(senha);
+					System.out.println(senha);
+				}
 			} catch (Exception e) {
 				context.addMessage(null, new FacesMessage("Info",
 						"Não foi possível definir uma senha para o usuário! " + "Por favor, tente mais tarde."));
 				return "";
 			}
-			
+
 			try {
-				UsuarioDao dao = new UsuarioDao();
-				dao.salvar(usuario);
-			
+				if(usuario.getId() != null) {
+					dao.editar(usuario);
+				} else {
+					dao.salvar(usuario);
+				}
+				
 			} catch (Exception e) {
-				context.addMessage(null, new FacesMessage("Info",
-						"Não foi possível se comunicar com o banco."));
-				return "";
+				context.addMessage(null, new FacesMessage("Info", "Não foi possível se comunicar com o banco."));
+				return "usuario";
 			}
 
 			context.addMessage(null, new FacesMessage("Successful", "Usuário Salvo com Sucesso!"));
 			return "usuario?faces-redirect=true";
 		}
 
-		return "";
+		return "usuario";
 	}
 
+	public String remover() {
+		FacesContext context = FacesContext.getCurrentInstance();
+
+		try {
+			dao.remove(this.usuario);
+			this.usuario = new Usuario();
+		} catch (Exception e) {
+			context.addMessage(null, new FacesMessage("Info", "Não foi possível se comunicar com o banco."));
+			return "usuario";
+		}
+
+		context.addMessage(null, new FacesMessage("Successful", "Usuário Removido com Sucesso!"));
+		return "usuario?faces-redirect=true";
+	}
 }

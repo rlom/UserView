@@ -9,28 +9,29 @@
 
 <h:head>
 	<style>
-html{
+html {
 	width: 100vw;
 	height: 100vh;
 	background-size: 100% auto;
-	background-image: url("#{request.contextPath}/webapp/resources/office.jpg");
+	background-image:
+		url("#{request.contextPath}/webapp/resources/office.jpg");
 }
 
-#page{
+#page {
 	z-index: 1000;
 	color: white;
 	background-color: rgba(4, 137, 177, 0.5);
 }
 
-#header{
+#header {
 	width: 100%;
 }
 
-#content{
-	top: 20vh;
+#content {
+	top: 10vh;
 	left: 20vw;
 	width: 60vw;
-	height: 60vh;
+	height: 35vh;
 	color: white;
 	position: fixed;
 	padding: 5vh 5vw;
@@ -38,13 +39,38 @@ html{
 	border-radius: 10px;
 }
 
-#dateNasc_Input, #dateNascOuter div{
+#content2 {
+	top: 50%;
+	left: 5%;
+	width: 90%;
+	height: 40%;
 	color: black;
+	overflow-y: scroll; position : fixed;
+	padding: 5vh 5vw;
+	background-color: rgba(4, 137, 177, 0.9);
+	border-radius: 10px;
+	position: fixed;
 }
-	
+
+#idForm\:dateNasc {
+	width: 100%;
+}
+
+#idForm\:dateNasc_input {
+	width: 86%;
+}
+
+#idForm\:dateNasc > button > span.ui-button-text{
+	width: 10%;
+}
+
 #imageUser {
 	height: 50px;
 	width: 50px;
+}
+
+#editarButton {
+	margin-left: 5px;
 }
 
 #footer {
@@ -68,32 +94,60 @@ html{
 
 		<h:form id="idForm">
 			<p:growl id="growl" showDetail="true" sticky="true" />
-			
+
 			<div id="content">
 				<b:row>
 					<b:column span="6">
 						<b:inputText label="CPF" value="#{usuarioController.usuario.cpf}"
 							mask="9{3}.9{3}.9{3}-9{2}"></b:inputText>
 					</b:column>
-	
+
 					<b:column span="6">
-						<b:inputText label="Nome" value="#{usuarioController.usuario.nome}" mask="a{0,60}" max-lenght="60"></b:inputText>
+						<b:inputText label="Nome"
+							value="#{usuarioController.usuario.nome}" mask="a{0,60}"
+							max-lenght="60"></b:inputText>
 					</b:column>
-					
+
 					<b:column span="6">
-						<b:dateTimePicker label="Data de Nascimento" id="dateNasc" value="#{usuarioController.usuario.nascimento}" />
+						<h:outputLabel value="Data de Nascimento"></h:outputLabel>
+						<p:datePicker id="dateNasc" label="Data de Nascimento"
+							value="#{usuarioController.usuario.nascimento}" showIcon="true" />
 					</b:column>
-					
+
 					<b:column span="6">
-						<b:inputText disabled="true" label="Senha" value="#{usuarioController.usuario.senha}" mask="*{0,8}" max-lenght="8"></b:inputText>
+						<b:inputText disabled="true" label="Senha"
+							value="#{usuarioController.usuario.senha}" mask="*{0,8}"
+							max-lenght="8"></b:inputText>
 					</b:column>
-					
+
 					<b:column span="12">
 						<center>
-							<b:commandButton update="@form" look="success" action="#{usuarioController.salvar}" value="Salvar"/>
+							<b:commandButton update="@form" look="success"
+								action="#{usuarioController.salvar}" value="Salvar" />
 						</center>
 					</b:column>
 				</b:row>
+			</div>
+
+			<div id="content2">
+				<b:dataTable value="#{usuarioController.usuarios}" var="user">
+					<b:dataTableColumn value="#{user.nome}" />
+					<b:dataTableColumn value="#{user.cpf}" />
+					<b:dataTableColumn value="#{user.nascimento}" />
+					<b:dataTableColumn value="#{user.senha}" />
+					<b:dataTableColumn label="Ações">
+						<b:commandButton update="@form" look="danger"
+							action="#{usuarioController.remover}" value="Remover">
+							<f:setPropertyActionListener
+								target="#{usuarioController.usuario}" value="#{user}" />
+						</b:commandButton>
+						<b:commandButton id="editarButton" update="@form" look="warning"
+							value="Editar">
+							<f:setPropertyActionListener
+								target="#{usuarioController.usuario}" value="#{user}" />
+						</b:commandButton>
+					</b:dataTableColumn>
+				</b:dataTable>
 			</div>
 		</h:form>
 
