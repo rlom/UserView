@@ -69,7 +69,7 @@ html {
 	width: 50px;
 }
 
-#editarButton {
+.editarButton {
 	margin-left: 5px;
 }
 
@@ -141,7 +141,7 @@ html {
 							<f:setPropertyActionListener
 								target="#{usuarioController.usuario}" value="#{user}" />
 						</b:commandButton>
-						<b:commandButton id="editarButton" update="@form" look="warning"
+						<b:commandButton styleClass="editarButton" update="@form" look="warning"
 							value="Editar">
 							<f:setPropertyActionListener
 								target="#{usuarioController.usuario}" value="#{user}" />
