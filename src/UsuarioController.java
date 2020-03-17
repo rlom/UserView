@@ -99,14 +99,14 @@ public class UsuarioController {
 
 			} catch (Exception e) {
 				context.addMessage(null, new FacesMessage("Info", "Não foi possível se comunicar com o banco."));
-				return "usuario";
+				return null;
 			}
 
 			context.addMessage(null, new FacesMessage("Successful", "Usuário Salvo com Sucesso!"));
 			return "usuario?faces-redirect=true";
 		}
 
-		return "usuario";
+		return null;
 	}
 
 	public String remover() {
