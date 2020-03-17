@@ -1,1 +1,1 @@
-web: java -jar target/UserView2-0.0.1-SNAPSHOT.war
+java -jar target/dependency/webapp-runner.jar target/UserView2-0.0.1-SNAPSHOT.war
