@@ -1,0 +1,1 @@
+web: java -jar target/UserView2-0.0.1-SNAPSHOT.war
