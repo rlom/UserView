@@ -45,7 +45,8 @@ html {
 	width: 90%;
 	height: 40%;
 	color: black;
-	overflow-y: scroll; position : fixed;
+	overflow-y: scroll;
+	position: fixed;
 	padding: 5vh 5vw;
 	background-color: rgba(4, 137, 177, 0.9);
 	border-radius: 10px;
@@ -60,7 +61,7 @@ html {
 	width: 86%;
 }
 
-#idForm\:dateNasc > button > span.ui-button-text{
+#idForm\:dateNasc>button>span.ui-button-text {
 	width: 10%;
 }
 
@@ -104,12 +105,11 @@ html {
 
 					<b:column span="6">
 						<b:inputText label="Nome"
-							value="#{usuarioController.usuario.nome}" mask="a{0,60}"
-							max-lenght="60"></b:inputText>
+							value="#{usuarioController.usuario.nome}" max-lenght="60"></b:inputText>
 					</b:column>
 
 					<b:column span="6">
-						<h:outputLabel value="Data de Nascimento"></h:outputLabel>
+						<h:outputLabel for="dateNasc" value="Data de Nascimento"></h:outputLabel>
 						<p:datePicker id="dateNasc" label="Data de Nascimento"
 							value="#{usuarioController.usuario.nascimento}" showIcon="true" />
 					</b:column>
@@ -141,8 +141,8 @@ html {
 							<f:setPropertyActionListener
 								target="#{usuarioController.usuario}" value="#{user}" />
 						</b:commandButton>
-						<b:commandButton styleClass="editarButton" update="@form" look="warning"
-							value="Editar">
+						<b:commandButton styleClass="editarButton" update="@form"
+							look="warning" value="Editar">
 							<f:setPropertyActionListener
 								target="#{usuarioController.usuario}" value="#{user}" />
 						</b:commandButton>
