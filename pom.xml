@@ -34,6 +34,14 @@
 			</plugin>
 		</plugins>
 	</build>
+
+	<configuration>
+		<appName>userview2</appName>
+		<processTypes>
+			<web>java $JAVA_OPTS -cp target/classes:target/dependency/* Main</web>
+		</processTypes>
+	</configuration>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.apache.myfaces.core</groupId>
